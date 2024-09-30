@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primary_toolbar_color">#FF6750A4</color>
+    <color name="resource_color">#546E7A</color>
 </resources>

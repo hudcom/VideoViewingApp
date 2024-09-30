@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">VideoViewingApp</string>
+    <string name="video_name">Назва відео</string>
+    <string name="resource">Ресурс</string>
+    <string name="description">Короткий опис відео…</string>
+    <string name="play_pause">Старт/Стоп</string>
+    <string name="next_video">Наступне відео</string>
+    <string name="previous_video">Попереднє відео</string>
+    <string name="fullscreen">Повноекранний режим</string>
+
+
 </resources>
