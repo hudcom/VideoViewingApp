@@ -34,6 +34,14 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    viewBinding {
+        enable = true
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -62,4 +70,6 @@ dependencies {
     // Для роботи з ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
 
+    // Для роботи з Glide
+    implementation("com.github.bumptech.glide:glide:4.15.1")
 }
