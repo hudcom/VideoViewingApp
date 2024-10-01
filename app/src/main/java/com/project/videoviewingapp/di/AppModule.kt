@@ -13,7 +13,7 @@ class AppModule {
     @Singleton
     fun provideRetrofit(): Retrofit{
         return Retrofit.Builder()
-            .baseUrl("https://gist.githubusercontent.com/jsturgis/")
+            .baseUrl("https://gist.githubusercontent.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
