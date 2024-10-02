@@ -8,15 +8,28 @@ import javax.inject.Inject
 class ViewModelFactory @Inject constructor(
     private val videoApi: VideoApi
 ): ViewModelProvider.Factory {
+    // Словник для зберігання екземплярів ViewModel
+    private val viewModels = mutableMapOf<Class<*>, ViewModel>()
+
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return when{
+        // Перевірте, чи вже є екземпляр у словнику
+        @Suppress("UNCHECKED_CAST")
+        return viewModels[modelClass] as? T ?: createNewViewModel(modelClass)
+    }
+
+    private fun <T : ViewModel> createNewViewModel(modelClass: Class<T>): T {
+        val viewModel = when {
             modelClass.isAssignableFrom(MainActivityViewModel::class.java) -> {
-                MainActivityViewModel(videoApi) as T
+                MainActivityViewModel(videoApi)
             }
             modelClass.isAssignableFrom(VideoPlayerViewModel::class.java) -> {
-                VideoPlayerViewModel() as T
+                VideoPlayerViewModel()
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
+
+        // Зберігайте новий екземпляр у словнику
+        viewModels[modelClass] = viewModel
+        return viewModel as T
     }
 }
