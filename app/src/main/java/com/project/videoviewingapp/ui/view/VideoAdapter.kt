@@ -6,19 +6,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.project.videoviewingapp.R
 import com.project.videoviewingapp.data.model.VideoData
 import com.project.videoviewingapp.databinding.ItemVideoBinding
+import com.project.videoviewingapp.utils.OnItemClickListener
 import javax.inject.Inject
 
 class VideoAdapter @Inject constructor(
-    private var videos: List<VideoData>
+    private var videos: List<VideoData>,
+    private val listener: OnItemClickListener
 ): RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
 
     class ViewHolder(
         private val binding: ItemVideoBinding,
     ): RecyclerView.ViewHolder(binding.root){
 
-        fun bind(video: VideoData){
+        fun bind(video: VideoData, clickListener: OnItemClickListener){
             binding.video = video
             loadImage(binding, video)
+            addOnClickListener(video, clickListener)
+        }
+
+        private fun addOnClickListener(video: VideoData, clickListener: OnItemClickListener) {
+            binding.root.setOnClickListener{
+                clickListener.onClickListener(video)
+            }
         }
 
         private fun loadImage(binding: ItemVideoBinding,video: VideoData) {
@@ -50,7 +59,7 @@ class VideoAdapter @Inject constructor(
     override fun getItemCount(): Int = videos.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(videos[position])
+        holder.bind(videos[position], listener)
     }
 
     fun updateVideoList(newList: List<VideoData>){

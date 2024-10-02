@@ -22,6 +22,13 @@ class MainActivityViewModel @Inject constructor(
     val videos: LiveData<List<VideoData>>
         get() = _videos
 
+    private val _navigateToVideoPlayer = MutableLiveData<VideoData>()
+    val navigateToVideoPlayer: LiveData<VideoData>
+        get() = _navigateToVideoPlayer
+
+    fun onItemClicked(video: VideoData){
+        _navigateToVideoPlayer.value = video
+    }
 
     fun fetchVideo(){
         viewModelScope.launch {
@@ -30,7 +37,6 @@ class MainActivityViewModel @Inject constructor(
                 if(response.isSuccessful){
                     _videos.value = convertToJson(response).categories.flatMap { it.videos }
                     Logger.d("Successfully retrieving video from API")
-                    Logger.d("Videos: ${_videos.value}")
                 } else {
                     Logger.e("Error: ${response.code()} ${response.message()}")
                 }

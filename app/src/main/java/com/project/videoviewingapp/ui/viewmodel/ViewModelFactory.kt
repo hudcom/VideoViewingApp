@@ -13,6 +13,9 @@ class ViewModelFactory @Inject constructor(
             modelClass.isAssignableFrom(MainActivityViewModel::class.java) -> {
                 MainActivityViewModel(videoApi) as T
             }
+            modelClass.isAssignableFrom(VideoPlayerViewModel::class.java) -> {
+                VideoPlayerViewModel() as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
     }

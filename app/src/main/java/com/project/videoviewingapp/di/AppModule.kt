@@ -1,6 +1,7 @@
 package com.project.videoviewingapp.di
 
 import com.project.videoviewingapp.data.repository.VideoApi
+import com.project.videoviewingapp.utils.ItemClickListener
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -22,5 +23,10 @@ class AppModule {
     @Singleton
     fun provideVideoApi(retrofit: Retrofit): VideoApi{
         return retrofit.create(VideoApi::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideItemClickListener(): ItemClickListener {
+        return ItemClickListener()
     }
 }
