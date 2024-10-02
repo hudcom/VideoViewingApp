@@ -3,10 +3,12 @@ package com.project.videoviewingapp.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.project.videoviewingapp.data.repository.VideoApi
+import com.project.videoviewingapp.data.repository.VideoDao
 import javax.inject.Inject
 
 class ViewModelFactory @Inject constructor(
-    private val videoApi: VideoApi
+    private val videoApi: VideoApi,
+    private val videoDao: VideoDao
 ): ViewModelProvider.Factory {
     // Словник для зберігання екземплярів ViewModel
     private val viewModels = mutableMapOf<Class<*>, ViewModel>()
@@ -20,7 +22,7 @@ class ViewModelFactory @Inject constructor(
     private fun <T : ViewModel> createNewViewModel(modelClass: Class<T>): T {
         val viewModel = when {
             modelClass.isAssignableFrom(MainActivityViewModel::class.java) -> {
-                MainActivityViewModel(videoApi)
+                MainActivityViewModel(videoApi,videoDao)
             }
             modelClass.isAssignableFrom(VideoPlayerViewModel::class.java) -> {
                 VideoPlayerViewModel()

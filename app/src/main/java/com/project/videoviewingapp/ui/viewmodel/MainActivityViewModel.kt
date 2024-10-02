@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.project.videoviewingapp.data.model.MediaResponse
 import com.project.videoviewingapp.data.model.VideoData
 import com.project.videoviewingapp.data.repository.VideoApi
+import com.project.videoviewingapp.data.repository.VideoDao
 import com.project.videoviewingapp.utils.Logger
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
@@ -15,7 +16,8 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor(
-    private val videoApi: VideoApi
+    private val videoApi: VideoApi,
+    private val videoDao: VideoDao
 ): ViewModel() {
 
     private val _videos = MutableLiveData<List<VideoData>>()
@@ -35,9 +37,17 @@ class MainActivityViewModel @Inject constructor(
             try {
                 val response = videoApi.getVideos()
                 if(response.isSuccessful){
-                    _videos.value = convertToJson(response).categories.flatMap { it.videos }
+                    val videos = convertToJson(response).categories.flatMap { it.videos }
+                    // Створення VideoData без id
+                    val videoEntities = videos.map {
+                        VideoData(title = it.title, subtitle = it.subtitle, description = it.description, thumb = it.thumb, sources = it.sources)
+                    }
+                    // Кешування в Room
+                    videoDao.insertVideos(videoEntities)
+                    _videos.value = videos
                     Logger.d("Successfully retrieving video from API")
                 } else {
+                    _videos.value = videoDao.getAllVideos()
                     Logger.e("Error: ${response.code()} ${response.message()}")
                 }
             } catch(e: Exception){
