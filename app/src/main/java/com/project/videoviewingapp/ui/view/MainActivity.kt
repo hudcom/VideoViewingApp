@@ -11,7 +11,6 @@ import com.project.videoviewingapp.databinding.ActivityMainBinding
 import com.project.videoviewingapp.ui.viewmodel.MainActivityViewModel
 import com.project.videoviewingapp.ui.viewmodel.ViewModelFactory
 import com.project.videoviewingapp.utils.ItemClickListener
-import com.project.videoviewingapp.utils.Logger
 import javax.inject.Inject
 
 class MainActivity @Inject constructor() : AppCompatActivity() {
@@ -59,7 +58,6 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
         }
 
         viewModel.navigateToVideoPlayer.observe(this) {
-            Logger.d("Video: $it")
             onItemClicked(it)
         }
     }
@@ -76,7 +74,6 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
     }
 
     private fun onItemClicked(video:VideoData){
-        Logger.d("Transition to VideoPlayerActivity")
         val intent = Intent(this,VideoPlayerActivity::class.java)
         intent.putExtra("videoData", video)
         startActivity(intent)
